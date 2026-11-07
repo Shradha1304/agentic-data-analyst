@@ -31,10 +31,10 @@ The agent loops: it picks a tool, reads the result, and decides the next step, u
 ## Roadmap
 
 - [x] Core tools with tests
-- [ ] Tool specs for the LLM API
-- [ ] Agent loop with step limit and call deduplication
-- [ ] Report generation with cited tool results
-- [ ] Run logging (JSON per run)
+- [x] Tool specs for the LLM API
+- [x] Agent loop with step limit and call deduplication
+- [x] Report generation with cited tool results
+- [x] Run logging (JSON per run)
 - [ ] Streamlit front end
 - [ ] Grounding check: verify numbers in the report against tool outputs
 - [ ] Evaluation on clean and messy datasets
