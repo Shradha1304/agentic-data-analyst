@@ -4,6 +4,7 @@ import time
 from dotenv import load_dotenv
 from openai import OpenAI,RateLimitError
 
+from analyst.reporting import build_report, verify_grounding, write_run_log
 from analyst.tool_specs import TOOL_SPECS,run_tool,to_openai_format
 
 load_dotenv()
@@ -56,7 +57,18 @@ def run_agent(df, task : str ="Explore the dataset and find the most interesting
 
         if not msg.tool_calls:
             print(f"{step} done")
-            return {"summary":msg.content,"messages":messages,"tool_log":tool_log}
+            report_data = build_report(msg.content, tool_log)
+            grounding = verify_grounding(msg.content or "", tool_log)
+            run_log_path = write_run_log(task, msg.content or "", tool_log, report_data["report"], grounding)
+            return {
+                "summary": msg.content,
+                "report": report_data["report"],
+                "citations": report_data["citations"],
+                "grounding_check": grounding,
+                "run_log_path": run_log_path,
+                "messages": messages,
+                "tool_log": tool_log,
+            }
 
         messages.append({
             "role": "assistant",
@@ -107,4 +119,16 @@ def run_agent(df, task : str ="Explore the dataset and find the most interesting
         messages=messages,
         max_tokens=2000,
     )
-    return {"summary": final.choices[0].message.content, "messages": messages, "tool_log": tool_log}
+    final_summary = final.choices[0].message.content
+    report_data = build_report(final_summary, tool_log)
+    grounding = verify_grounding(final_summary or "", tool_log)
+    run_log_path = write_run_log(task, final_summary or "", tool_log, report_data["report"], grounding)
+    return {
+        "summary": final_summary,
+        "report": report_data["report"],
+        "citations": report_data["citations"],
+        "grounding_check": grounding,
+        "run_log_path": run_log_path,
+        "messages": messages,
+        "tool_log": tool_log,
+    }

@@ -69,7 +69,15 @@ pip install -r requirements.txt
 Add your API key to a `.env` file (never commit this):
 
 ```
-LLM_KEY=your-key-here
+LLM_API_KEY=your-key-here
+LLM_BASE_URL=https://api.your-provider.example/v1
+LLM_MODEL=gpt-4o-mini
+```
+
+## Running the app
+
+```bash
+streamlit run app.py
 ```
 
 ## Running tests
