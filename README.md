@@ -35,10 +35,9 @@ The agent loops: it picks a tool, reads the result, and decides the next step, u
 - [x] Agent loop with step limit and call deduplication
 - [x] Report generation with cited tool results
 - [x] Run logging (JSON per run)
-- [ ] Streamlit front end
-- [ ] Grounding check: verify numbers in the report against tool outputs
-- [ ] Evaluation on clean and messy datasets
-- [ ] Optional: model training step, sandboxed code execution
+- [x] Streamlit front end
+- [x] Grounding check: verify numbers in the report against tool outputs
+- [x] Evaluation on clean and messy datasets
 
 ## Project structure
 
